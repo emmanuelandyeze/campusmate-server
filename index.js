@@ -1,57 +1,20 @@
-const express = require('express');
+import express from 'express';
 
 const app = express();
 
-require('dotenv').config();
+import 'dotenv/config';
 
 app.use(express.json());
 
-const connectDB = require('./utils/connectMongo');
+import connectDB from './utils/connectMongo.js';
+
+import courseRoute from './routes/courseRoute.js';
 
 connectDB();
 
-const BookModel = require('./models/book.model');
+import BookModel from './models/book.model.js';
 
-app.get('/api/v1/books', async (req, res) => {
-	const {
-		limit = 5,
-		orderBy = 'name',
-		sortBy = 'asc',
-		keyword,
-	} = req.query;
-	let page = +req.query?.page;
-
-	if (!page || page <= 0) page = 1;
-
-	const skip = (page - 1) * +limit;
-
-	const query = {};
-
-	if (keyword)
-		query.name = { $regex: keyword, $options: 'i' };
-
-	try {
-		const data = await BookModel.find(query)
-			.skip(skip)
-			.limit(limit)
-			.sort({ [orderBy]: sortBy });
-		const totalItems = await BookModel.countDocuments(
-			query,
-		);
-		return res.status(200).json({
-			msg: 'Ok',
-			data,
-			totalItems,
-			totalPages: Math.ceil(totalItems / limit),
-			limit: +limit,
-			currentPage: page,
-		});
-	} catch (error) {
-		return res.status(500).json({
-			msg: error.message,
-		});
-	}
-});
+app.use('/', courseRoute);
 
 app.get('/api/v1/books/:id', async (req, res) => {
 	try {
@@ -66,27 +29,6 @@ app.get('/api/v1/books/:id', async (req, res) => {
 
 		return res.status(404).json({
 			msg: 'Not Found',
-		});
-	} catch (error) {
-		return res.status(500).json({
-			msg: error.message,
-		});
-	}
-});
-
-app.post('/api/v1/books', async (req, res) => {
-	try {
-		const { name, author, price, description } = req.body;
-		const book = new BookModel({
-			name,
-			author,
-			price,
-			description,
-		});
-		const data = await book.save();
-		return res.status(200).json({
-			msg: 'Ok',
-			data,
 		});
 	} catch (error) {
 		return res.status(500).json({
