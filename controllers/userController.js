@@ -1,4 +1,5 @@
 import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
 
 const createUser = async (req, res) => {
 	try {
