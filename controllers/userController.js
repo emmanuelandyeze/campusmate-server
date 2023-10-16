@@ -34,7 +34,7 @@ const loginUser = async (req, res) => {
 			'your_jwt_secret',
 			{ expiresIn: '1h' },
 		);
-		res.json({ success: true, token, user: user });
+		res.json({ success: true, token, userId: user._id });
 	} catch (error) {
 		res
 			.status(500)
