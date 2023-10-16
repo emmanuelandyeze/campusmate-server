@@ -10,6 +10,7 @@ import connectDB from './utils/connectMongo.js';
 
 import courseRoute from './routes/courseRoute.js';
 import userRoute from './routes/userRoute.js';
+import taskRoute from './routes/taskRoute.js';
 
 connectDB();
 
@@ -17,6 +18,7 @@ import BookModel from './models/book.model.js';
 
 app.use('/', courseRoute);
 app.use('/api/v1/users', userRoute);
+app.use('/api/v1/tasks', taskRoute);
 
 app.get('/api/v1/books/:id', async (req, res) => {
 	try {
