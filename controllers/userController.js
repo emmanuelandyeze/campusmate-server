@@ -7,6 +7,7 @@ const createUser = async (req, res) => {
 		res.status(201).json({
 			msg: 'User created successfully',
 			user,
+			success: true,
 		});
 	} catch (error) {
 		res.status(400).json({
@@ -33,7 +34,7 @@ const loginUser = async (req, res) => {
 			'your_jwt_secret',
 			{ expiresIn: '1h' },
 		);
-		res.json({ success: true, token });
+		res.json({ success: true, token, user: user });
 	} catch (error) {
 		res
 			.status(500)
