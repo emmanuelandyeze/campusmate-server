@@ -59,12 +59,20 @@ const taskCompleted = async (req, res) => {
 		const taskId = req.params.taskId;
 		const { completed } = req.body;
 
-		// Update the completion status of the task
-		const updatedTask = await Task.findByIdAndUpdate(
-			taskId,
-			{ completed },
-			{ new: true },
-		);
+		// Find the task by ID
+		const task = await Task.findById(taskId);
+
+		if (!task) {
+			return res
+				.status(404)
+				.json({ error: 'Task not found' });
+		}
+
+		// Toggle the completion status
+		task.completed = !completed;
+
+		// Save the updated task
+		const updatedTask = await task.save();
 
 		res.json(updatedTask);
 	} catch (error) {
@@ -74,7 +82,6 @@ const taskCompleted = async (req, res) => {
 			.json({ error: 'Internal Server Error' });
 	}
 };
-
 export {
 	createTask,
 	getTasks,
