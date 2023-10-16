@@ -23,7 +23,6 @@ const taskSchema = new mongoose.Schema({
 	},
 	colour: {
 		type: String,
-		default: '#ffffff', // Default color, you can set any default color
 	},
 	// You can add more fields as needed
 });
