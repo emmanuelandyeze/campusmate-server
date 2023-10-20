@@ -2,6 +2,8 @@ import express from 'express';
 import 'dotenv/config';
 import './models/db.js';
 import userRouter from './routes/user.js';
+import taskRouter from './routes/task.js';
+import noteRouter from './routes/note.js';
 
 import User from './models/user.js';
 
@@ -17,16 +19,10 @@ const app = express();
 
 app.use(express.json());
 app.use(userRouter);
+app.use(taskRouter);
+app.use(noteRouter);
 
-// const test = async (email, password) => {
-//   const user = await User.findOne({ email: email });
-//   const result = await user.comparePassword(password);
-//   console.log(result);
-// };
-
-// test('niraj@email.com', 'niraj12');
-
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
 	res.json({
 		success: true,
 		message: 'Welcome to backend zone!',

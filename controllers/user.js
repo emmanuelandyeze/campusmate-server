@@ -69,6 +69,7 @@ export const userSignIn = async (req, res) => {
 		fullname: user.fullname,
 		email: user.email,
 		avatar: user.avatar ? user.avatar : '',
+		userId: user._id,
 	};
 
 	res.json({ success: true, user: userInfo, token });
