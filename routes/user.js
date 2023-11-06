@@ -46,5 +46,21 @@ router.post(
 	uploads.single('profile'),
 	uploadProfile,
 );
+router.get('/profile', isAuth, (req, res) => {
+	if (!req.user)
+		return res.json({
+			success: false,
+			message: 'Unauthorized access',
+		});
+
+	res.json({
+		success: true,
+		profile: {
+			fullname: req.user.fullname,
+			email: req.user.email,
+			avatar: req.user.avatar ? req.user.avatar : '',
+		},
+	});
+});
 
 export default router;
