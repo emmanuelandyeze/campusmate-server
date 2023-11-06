@@ -59,6 +59,7 @@ router.get('/profile', isAuth, (req, res) => {
 			fullname: req.user.fullname,
 			email: req.user.email,
 			avatar: req.user.avatar ? req.user.avatar : '',
+			userId: req.user._id,
 		},
 	});
 });
