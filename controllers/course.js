@@ -96,10 +96,11 @@ export const addCourseToUser = async (req, res) => {
 				message: 'User or course not found',
 			});
 		}
+		console.log(user.courses);
 
 		// Check if the course is already in the user's list
 		const isCourseAlreadyAdded = user.courses.some(
-			(userCourse) => userCourse.equals(course._id),
+			(item) => item._id === course._id,
 		);
 
 		if (isCourseAlreadyAdded) {
@@ -107,7 +108,6 @@ export const addCourseToUser = async (req, res) => {
 				message: 'Course is already added to the user',
 			});
 		}
-		console.log(course);
 
 		await User.findByIdAndUpdate(
 			user._id,
@@ -133,7 +133,7 @@ export const removeCourseFromUser = async (req, res) => {
 	if (user && course) {
 		await User.findByIdAndUpdate(
 			user._id,
-			{ $pull: { courses: courseId } },
+			{ $pull: { courses: course } },
 			{ new: true },
 		);
 		res.status(200).json({
