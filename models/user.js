@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
 	avatar: String,
 	tokens: [{ type: Object }],
 	courses: [],
+	school: String,
 });
 
 userSchema.pre('save', function (next) {

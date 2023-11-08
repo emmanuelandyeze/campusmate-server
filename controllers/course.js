@@ -100,8 +100,12 @@ export const addCourseToUser = async (req, res) => {
 
 		// Check if the course is already in the user's list
 		const isCourseAlreadyAdded = user.courses.some(
-			(item) => item._id === course._id,
+			(item) =>
+				item._id === course._id &&
+				item.courseCode === course.courseCode,
 		);
+        
+        console.log(isCourseAlreadyAdded);
 
 		if (isCourseAlreadyAdded) {
 			return res.status(400).json({

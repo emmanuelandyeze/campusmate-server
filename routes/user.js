@@ -6,6 +6,7 @@ import {
 	userSignIn,
 	uploadProfile,
 	signOut,
+	updateUserSchool,
 } from '../controllers/user.js';
 import { isAuth } from '../middlewares/auth.js';
 import {
@@ -63,5 +64,6 @@ router.get('/profile', isAuth, (req, res) => {
 		},
 	});
 });
+router.put('/update-user-school/:userId', updateUserSchool);
 
 export default router;

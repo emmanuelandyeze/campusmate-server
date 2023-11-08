@@ -71,6 +71,7 @@ export const userSignIn = async (req, res) => {
 		avatar: user.avatar ? user.avatar : '',
 		userId: user._id,
 		courses: user.courses,
+		school: user.school,
 	};
 
 	res.json({ success: true, user: userInfo, token });
@@ -142,44 +143,37 @@ export const signOut = async (req, res) => {
 	}
 };
 
-export const updateUserCourse = async (req, res) => {
-	const { user } = req;
-	if (!user)
+export const updateUserSchool = async (req, res) => {
+	const userId = req.params.userId;
+
+	console.log(userId);
+
+	const user = await User.findById(userId);
+
+	if (!user) {
 		return res.status(401).json({
 			success: false,
-			message: 'unauthorized access!',
+			message: 'Unauthorized access',
 		});
+	}
 
-	const { courseId } = req.body;
+	try {
+		const updatedUser = await User.findByIdAndUpdate(
+			user._id,
+			{ school: req.body.school },
+			{ new: true },
+		);
 
-	const course = await User.findByIdAndUpdate(
-		user._id,
-		{ $addToSet: { courses: course } },
-		{ new: true },
-	);
-	res.status(201).json({
-		success: true,
-		message: 'Course added successfully!',
-	});
-};
-
-export const deleteUserCourse = async (req, res) => {
-	const { user } = req;
-	if (!user)
-		return res.status(401).json({
+		res.status(200).json({
+			success: true,
+			message: 'School updated successfully',
+			user: updatedUser,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
 			success: false,
-			message: 'unauthorized access!',
+			message: 'Internal server error',
 		});
-
-	const { courseId } = req.body;
-
-	const course = await User.findByIdAndUpdate(
-		user._id,
-		{ $pull: { courses: courseId } },
-		{ new: true },
-	);
-	res.status(201).json({
-		success: true,
-		message: 'Course deleted successfully!',
-	});
+	}
 };
