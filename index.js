@@ -4,6 +4,7 @@ import './models/db.js';
 import userRouter from './routes/user.js';
 import taskRouter from './routes/task.js';
 import noteRouter from './routes/note.js';
+import courseRouter from './routes/course.js';
 
 import User from './models/user.js';
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
 app.use(noteRouter);
+app.use(courseRouter);
 
 app.get('/', (req, res) => {
 	res.json({

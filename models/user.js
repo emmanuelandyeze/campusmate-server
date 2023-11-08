@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
 	},
 	avatar: String,
 	tokens: [{ type: Object }],
+	courses: [],
 });
 
 userSchema.pre('save', function (next) {

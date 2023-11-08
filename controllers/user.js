@@ -70,6 +70,7 @@ export const userSignIn = async (req, res) => {
 		email: user.email,
 		avatar: user.avatar ? user.avatar : '',
 		userId: user._id,
+		courses: user.courses,
 	};
 
 	res.json({ success: true, user: userInfo, token });
@@ -139,4 +140,46 @@ export const signOut = async (req, res) => {
 			message: 'Sign out successfully!',
 		});
 	}
+};
+
+export const updateUserCourse = async (req, res) => {
+	const { user } = req;
+	if (!user)
+		return res.status(401).json({
+			success: false,
+			message: 'unauthorized access!',
+		});
+
+	const { courseId } = req.body;
+
+	const course = await User.findByIdAndUpdate(
+		user._id,
+		{ $addToSet: { courses: course } },
+		{ new: true },
+	);
+	res.status(201).json({
+		success: true,
+		message: 'Course added successfully!',
+	});
+};
+
+export const deleteUserCourse = async (req, res) => {
+	const { user } = req;
+	if (!user)
+		return res.status(401).json({
+			success: false,
+			message: 'unauthorized access!',
+		});
+
+	const { courseId } = req.body;
+
+	const course = await User.findByIdAndUpdate(
+		user._id,
+		{ $pull: { courses: courseId } },
+		{ new: true },
+	);
+	res.status(201).json({
+		success: true,
+		message: 'Course deleted successfully!',
+	});
 };
