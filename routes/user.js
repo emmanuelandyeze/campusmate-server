@@ -61,6 +61,7 @@ router.get('/profile', isAuth, (req, res) => {
 			email: req.user.email,
 			avatar: req.user.avatar ? req.user.avatar : '',
 			userId: req.user._id,
+			school: req.user.school,
 		},
 	});
 });
