@@ -117,7 +117,7 @@ app.get('/messages/:courseId', async (req, res) => {
 
 		const messages = await Message.find({
 			courseId: courseId,
-		}).populate('senderId', '_id name');
+		}).populate('senderId', '_id fullname');
 
 		res.json(messages);
 	} catch (error) {
