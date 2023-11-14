@@ -111,28 +111,22 @@ app.post('/messages', async (req, res) => {
 });
 
 //endpoint to fetch the messages between users in the chatRoom
-app.get(
-	'/messages/:senderId/:courseId',
-	async (req, res) => {
-		try {
-			const { senderId, courseId } = req.params;
+app.get('/messages/:courseId', async (req, res) => {
+	try {
+		const { senderId, courseId } = req.params;
 
-			const messages = await Message.find({
-				$or: [
-					{ senderId: senderId, courseId: courseId },
-					{ senderId: courseId, courseId: senderId },
-				],
-			}).populate('senderId', '_id name');
+		const messages = await Message.find({
+			courseId: courseId,
+		}).populate('senderId', '_id name');
 
-			res.json(messages);
-		} catch (error) {
-			console.log(error);
-			res
-				.status(500)
-				.json({ error: 'Internal Server Error' });
-		}
-	},
-);
+		res.json(messages);
+	} catch (error) {
+		console.log(error);
+		res
+			.status(500)
+			.json({ error: 'Internal Server Error' });
+	}
+});
 
 //endpoint to delete the messages!
 app.post('/deleteMessages', async (req, res) => {
