@@ -5,6 +5,7 @@ import userRouter from './routes/user.js';
 import taskRouter from './routes/task.js';
 import noteRouter from './routes/note.js';
 import courseRouter from './routes/course.js';
+import imageRouter from './routes/image.js';
 import cors from 'cors';
 import http, { Server } from 'http';
 
@@ -28,7 +29,23 @@ app.use(userRouter);
 app.use(taskRouter);
 app.use(noteRouter);
 app.use(courseRouter);
+app.use(imageRouter);
 app.use(cors());
+
+const messageChangeStream = Message.watch();
+
+messageChangeStream.on('change', (change) => {
+	console.log('Change detected:', change);
+});
+
+// Set up Socket.IO
+io.on('connection', (socket) => {
+	console.log('A user connected');
+
+	socket.on('disconnect', () => {
+		console.log('User disconnected');
+	});
+});
 
 app.get('/', (req, res) => {
 	res.json({
@@ -63,26 +80,7 @@ let chatRooms = [
 	// },
 ];
 
-io.on('connection', (socket) => {
-	console.log(`⚡: ${socket.id} user just connected!`);
 
-	socket.on('createRoom', (roomName) => {
-		socket.join(roomName);
-		//👇🏻 Adds the new group name to the chat rooms array
-		chatRooms.unshift({
-			id: generateID(),
-			roomName,
-			messages: [],
-		});
-		//👇🏻 Returns the updated chat rooms via another event
-		socket.emit('roomsList', chatRooms);
-	});
-
-	socket.on('disconnect', () => {
-		socket.disconnect();
-		console.log('🔥: A user disconnected');
-	});
-});
 
 //endpoint to post Messages and store it in the backend
 app.post('/messages', async (req, res) => {
