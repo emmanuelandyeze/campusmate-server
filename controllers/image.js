@@ -23,3 +23,17 @@ export const getImagesByUser = async (req, res) => {
 		images,
 	});
 };
+
+export const deleteImage = async (req, res) => {
+	const { imageId } = req.params;
+	const image = await Image.findByIdAndDelete(imageId);
+	if (!image) {
+		res.status(404).json({
+			message: 'Image not found',
+		});
+	}
+	res.status(200).json({
+		message: 'Deleted image successfully',
+		image,
+	});
+};
