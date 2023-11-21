@@ -46,27 +46,34 @@ export const getCourse = async (req, res) => {
 };
 
 export const updateCourse = async (req, res) => {
-	const course = await Course.findById(req.params.id);
-	if (course) {
-		course.courseTitle = req.body.courseTitle;
-		course.courseCode = req.body.courseCode;
-		course.faculty = req.body.faculty;
-		course.department = req.body.department;
-		course.courseDescription = req.body.courseDescription;
-		course.courseUnit = req.body.courseUnit;
-		course.prerequisite = req.body.prerequisite;
-		course.courseTimes = req.body.courseTimes;
-		const updatedCourse = await course.save();
-		res.status(200).json({
-			message: 'Updated course successfully',
-			course: updatedCourse,
-		});
-	} else {
-		res.status(404).json({
-			message: 'Course not found',
-		});
+	const courseId = req.params.id; // Assuming the course ID is passed as a route parameter
+	const updates = req.body; // Assuming updates are sent in the request body
+
+	console.log(updates.courseTimes);
+	try {
+		// Assuming courseId is the ID of the course document where you want to push the courseTimeObject
+		// Assuming courseTimeObject is the object you want to push into the 'courseTimes' array
+
+		// Using findByIdAndUpdate to push the object to the 'courseTimes' array
+		const updatedCourse = await Course.findByIdAndUpdate(
+			courseId,
+			{ $push: { courseTimes: updates.courseTimes } },
+			{ new: true }, // To return the updated document
+		);
+
+		if (!updatedCourse) {
+			// Handle case where the course is not found
+			return null;
+		}
+
+		return res.json({ updatedCourse });
+	} catch (error) {
+		// Handle error
+		console.error('Error:', error);
+		return null;
 	}
 };
+
 
 export const deleteCourse = async (req, res) => {
 	const course = await Course.findById(req.params.id);
