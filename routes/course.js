@@ -23,6 +23,6 @@ router.put(
 	'/remove-course-from-user',
 	removeCourseFromUser,
 );
-router.get('/get-user-courses/:userId', getUserCourses);
+router.get('/get-user-courses/:userId', getUserCourses); 
 
 export default router;

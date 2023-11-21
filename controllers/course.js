@@ -48,12 +48,7 @@ export const getCourse = async (req, res) => {
 export const updateCourse = async (req, res) => {
 	const courseId = req.params.id; // Assuming the course ID is passed as a route parameter
 	const updates = req.body; // Assuming updates are sent in the request body
-
-	console.log(updates.courseTimes);
 	try {
-		// Assuming courseId is the ID of the course document where you want to push the courseTimeObject
-		// Assuming courseTimeObject is the object you want to push into the 'courseTimes' array
-
 		// Using findByIdAndUpdate to push the object to the 'courseTimes' array
 		const updatedCourse = await Course.findByIdAndUpdate(
 			courseId,

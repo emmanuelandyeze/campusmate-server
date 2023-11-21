@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const courseTimeSchema = new mongoose.Schema({
 	day: String, // e.g., "Monday", "Tuesday", etc.
 	startTime: Date, // Date object for start time
-	endTime: Date, // Date object for end time
+	duration: String, // Date object for end time
 });
 
 const courseSchema = new mongoose.Schema({
