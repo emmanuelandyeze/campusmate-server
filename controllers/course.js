@@ -165,3 +165,25 @@ export const getUserCourses = async (req, res) => {
 		});
 	}
 };
+
+export const getUserswithCourse = async (req, res) => {
+	const { courseId } = req.params;
+	console.log(courseId);
+	const users = await User.find({
+		courses: {
+			$elemMatch: {
+				courseCode: courseId,
+			},
+		},
+	});
+	if (users) {
+		res.status(200).json({
+			message: 'Fetched users successfully',
+			users,
+		});
+	} else {
+		res.status(404).json({
+			message: 'Users not found',
+		});
+	}
+};
