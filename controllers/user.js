@@ -72,6 +72,7 @@ export const userSignIn = async (req, res) => {
 		userId: user._id,
 		courses: user.courses,
 		school: user.school,
+		token: user.token,
 	};
 
 	res.json({ success: true, user: userInfo, token });
