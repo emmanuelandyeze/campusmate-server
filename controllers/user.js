@@ -146,8 +146,6 @@ export const signOut = async (req, res) => {
 export const updateUserSchool = async (req, res) => {
 	const userId = req.params.userId;
 
-	console.log(userId);
-
 	const user = await User.findById(userId);
 
 	if (!user) {
@@ -167,6 +165,39 @@ export const updateUserSchool = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: 'School updated successfully',
+			user: updatedUser,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			success: false,
+			message: 'Internal server error',
+		});
+	}
+};
+
+export const updateUserToken = async (req, res) => {
+	const userId = req.params.userId;
+
+	const user = await User.findById(userId);
+
+	if (!user) {
+		return res.status(401).json({
+			success: false,
+			message: 'Unauthorized access',
+		});
+	}
+
+	try {
+		const updatedUser = await User.findByIdAndUpdate(
+			user._id,
+			{ token: req.body.token },
+			{ new: true },
+		);
+
+		res.status(200).json({
+			success: true,
+			message: 'Token updated successfully',
 			user: updatedUser,
 		});
 	} catch (error) {

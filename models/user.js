@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
 	tokens: [{ type: Object }],
 	courses: [],
 	school: String,
+	token: String,
 });
 
 userSchema.pre('save', function (next) {
