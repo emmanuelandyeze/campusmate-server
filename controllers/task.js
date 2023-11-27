@@ -86,3 +86,42 @@ export const completedTask = async (req, res) => {
 		task,
 	});
 };
+
+export const updateTaskChecklist = async (req, res) => {
+	const { taskId, checklistId, completed } = req.body;
+
+	try {
+		// Find the task by ID
+		const task = await Task.findById(taskId);
+
+		if (!task) {
+			return res
+				.status(404)
+				.json({ message: 'Task not found' });
+		}
+
+		// Find the checklist item within the task's checklists array
+		const checklistItem = task.checkList.find(
+			(item) => item.id.toString() === checklistId,
+		);
+
+		if (!checklistItem) {
+			return res
+				.status(404)
+				.json({ message: 'Checklist item not found' });
+		}
+
+		// Update the completed status of the checklist item
+		checklistItem.completed = completed;
+
+		// Save the updated task document
+		await task.save();
+
+		res.status(200).json({
+			message: 'Checklist item updated successfully',
+			task,
+		});
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
