@@ -88,7 +88,8 @@ export const completedTask = async (req, res) => {
 };
 
 export const updateTaskChecklist = async (req, res) => {
-	const { taskId, checklistId, completed } = req.body;
+	const { checklistId, completed } = req.body;
+	const { taskId } = req.params;
 
 	try {
 		// Find the task by ID
