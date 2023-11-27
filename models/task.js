@@ -29,6 +29,9 @@ const taskSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	checkList: {
+		type: Array,
+	},
 });
 
 const Task = mongoose.model('Task', taskSchema);

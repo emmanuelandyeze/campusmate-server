@@ -8,6 +8,7 @@ export const createTask = async (req, res) => {
 		time,
 		userId,
 		colour,
+		checkList,
 	} = req.body;
 	const newTask = new Task({
 		name,
@@ -16,6 +17,7 @@ export const createTask = async (req, res) => {
 		time,
 		userId,
 		colour,
+		checkList,
 	});
 	const result = await newTask.save();
 	res.status(201).json({
