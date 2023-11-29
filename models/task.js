@@ -10,7 +10,6 @@ const taskSchema = new mongoose.Schema({
 	},
 	completed: {
 		type: Boolean,
-		required: true,
 	},
 	created_at: {
 		type: Date,
@@ -31,6 +30,9 @@ const taskSchema = new mongoose.Schema({
 	},
 	checkList: {
 		type: Array,
+	},
+	reminder: {
+		type: String,
 	},
 });
 

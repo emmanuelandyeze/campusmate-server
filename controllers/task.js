@@ -9,6 +9,7 @@ export const createTask = async (req, res) => {
 		userId,
 		colour,
 		checkList,
+		reminder,
 	} = req.body;
 	const newTask = new Task({
 		name,
@@ -18,6 +19,7 @@ export const createTask = async (req, res) => {
 		userId,
 		colour,
 		checkList,
+		reminder,
 	});
 	const result = await newTask.save();
 	res.status(201).json({
@@ -115,8 +117,10 @@ export const updateTaskChecklist = async (req, res) => {
 		// Update the completed status of the checklist item
 		checklistItem.completed = completed;
 
-		// Save the updated task document
+		// Log before and after the save operation
+		console.log('Before Save:', task);
 		await task.save();
+		console.log('After Save:', task);
 
 		res.status(200).json({
 			message: 'Checklist item updated successfully',
