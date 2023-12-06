@@ -6,6 +6,7 @@ import taskRouter from './routes/task.js';
 import noteRouter from './routes/note.js';
 import courseRouter from './routes/course.js';
 import imageRouter from './routes/image.js';
+import documentRouter from './routes/document.js';
 import cors from 'cors';
 import http, { Server } from 'http';
 
@@ -30,6 +31,7 @@ app.use(taskRouter);
 app.use(noteRouter);
 app.use(courseRouter);
 app.use(imageRouter);
+app.use(documentRouter);
 app.use(cors());
 
 const messageChangeStream = Message.watch();
