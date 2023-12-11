@@ -9,6 +9,7 @@ import {
 	deleteNote,
 	getNotesByTask,
 	getNotesByUser,
+	getNotesByCourse,
 } from '../controllers/note.js';
 
 router.post('/create-note', createNote);
@@ -19,5 +20,9 @@ router.put('/update-note/:id', updateNote);
 router.delete('/delete-note/:id', deleteNote);
 router.get('/get-notes-by-task/:taskId', getNotesByTask);
 router.get('/get-notes-by-user/:userId', getNotesByUser);
+router.get(
+	'/get-notes-by-course/:courseId',
+	getNotesByCourse,
+);
 
 export default router;

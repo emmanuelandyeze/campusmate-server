@@ -25,6 +25,10 @@ const noteSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Task',
 		},
+		courseId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Course',
+		},
 	},
 	{
 		timestamps: true,

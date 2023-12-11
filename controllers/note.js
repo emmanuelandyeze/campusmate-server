@@ -17,14 +17,21 @@ export const getNote = async (req, res) => {
 };
 
 export const createNote = async (req, res) => {
-	const { title, description, userId, colour, taskId } =
-		req.body;
+	const {
+		title,
+		description,
+		userId,
+		colour,
+		taskId,
+		courseId,
+	} = req.body;
 	const newNote = new Note({
 		title,
 		description,
 		userId,
 		colour,
 		taskId,
+		courseId,
 	});
 	const result = await newNote.save();
 	res.status(201).json({
@@ -68,6 +75,16 @@ export const getNotesByTask = async (req, res) => {
 export const getNotesByUser = async (req, res) => {
 	const notes = await Note.find({
 		userId: req.params.userId,
+	});
+	res.status(200).json({
+		message: 'Fetched notes successfully',
+		notes,
+	});
+};
+
+export const getNotesByCourse = async (req, res) => {
+	const notes = await Note.find({
+		courseId: req.params.courseId,
 	});
 	res.status(200).json({
 		message: 'Fetched notes successfully',
