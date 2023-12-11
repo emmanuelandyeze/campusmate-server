@@ -1,11 +1,12 @@
 import Image from '../models/image.js';
 
 export const createImage = async (req, res) => {
-	const { title, picture, userId } = req.body;
+	const { title, picture, userId, courseId } = req.body;
 	const newImage = new Image({
 		title,
 		picture,
 		userId,
+		courseId,
 	});
 	const result = await newImage.save();
 	res.status(201).json({
@@ -20,6 +21,16 @@ export const getImagesByUser = async (req, res) => {
 	});
 	res.status(200).json({
 		message: 'Fetched notes successfully',
+		images,
+	});
+};
+
+export const getImagesByCourse = async (req, res) => {
+	const images = await Image.find({
+		courseId: req.params.courseId,
+	});
+	res.status(200).json({
+		message: 'Fetched images successfully',
 		images,
 	});
 };

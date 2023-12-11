@@ -1,11 +1,12 @@
 import Document from '../models/document.js';
 
 export const createDocument = async (req, res) => {
-	const { title, document, userId } = req.body;
+	const { title, document, userId, courseId } = req.body;
 	const newImage = new Document({
 		title,
 		document,
 		userId,
+		courseId,
 	});
 	const result = await newImage.save();
 	res.status(201).json({
@@ -17,6 +18,16 @@ export const createDocument = async (req, res) => {
 export const getDocumentsByUser = async (req, res) => {
 	const documents = await Document.find({
 		userId: req.params.userId,
+	});
+	res.status(200).json({
+		message: 'Fetched documents successfully',
+		documents,
+	});
+};
+
+export const getDocumentsByCourse = async (req, res) => {
+	const documents = await Document.find({
+		courseId: req.params.courseId,
 	});
 	res.status(200).json({
 		message: 'Fetched documents successfully',
