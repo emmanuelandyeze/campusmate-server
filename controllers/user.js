@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import sharp from 'sharp';
 import cloudinary from '../helper/imageUpload.js';
+import passport from '../middlewares/googleAuth.js';
 
 export const createUser = async (req, res) => {
 	const { fullname, email, password } = req.body;
@@ -209,3 +210,19 @@ export const updateUserToken = async (req, res) => {
 		});
 	}
 };
+
+export const googleSignIn = passport.authenticate(
+	'google',
+	{
+		scope: ['profile', 'email'],
+	},
+);
+
+export const googleSignInCallback = passport.authenticate(
+	'google',
+	{
+		failureRedirect: '/auth/google/failure', // Redirect if authentication fails
+		successRedirect: '/auth/google/success', // Redirect if authentication succeeds
+	},
+);
+
