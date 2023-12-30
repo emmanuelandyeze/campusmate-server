@@ -21,7 +21,7 @@ router.put('/update-course/:id', updateCourse);
 router.delete('/delete-course/:id', deleteCourse);
 router.put('/add-course-to-user/:userId', addCourseToUser);
 router.put(
-	'/remove-course-from-user',
+	'/remove-course-from-user/:userId',
 	removeCourseFromUser,
 );
 router.get('/get-user-courses/:userId', getUserCourses);

@@ -133,21 +133,34 @@ export const addCourseToUser = async (req, res) => {
 };
 
 export const removeCourseFromUser = async (req, res) => {
-	const { userId, courseId } = req.body;
-	const user = await User.findById(userId);
-	const course = await Course.findById(courseId);
-	if (user && course) {
+	const { userId } = req.params; // Get user and course IDs from the URL parameters
+	const { courseId } = req.body; // Get course ID from the request body
+
+	try {
+		// Find the user and course by their respective IDs
+		const user = await User.findById(userId);
+		const course = await Course.findById(courseId);
+
+		if (!user || !course) {
+			return res.status(404).json({
+				message: 'User or course not found',
+			});
+		}
+		console.log(user.courses);
+
 		await User.findByIdAndUpdate(
 			user._id,
 			{ $pull: { courses: course } },
 			{ new: true },
 		);
+
 		res.status(200).json({
-			message: 'Removed course successfully',
+			message: 'Removed course from user successfully',
 		});
-	} else {
-		res.status(404).json({
-			message: 'User or course not found',
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			message: 'Internal server error',
 		});
 	}
 };
