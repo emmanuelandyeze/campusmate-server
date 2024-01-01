@@ -165,6 +165,52 @@ export const removeCourseFromUser = async (req, res) => {
 	}
 };
 
+export const updateCourseForUser = async (req, res) => {
+	const { userId } = req.params;
+	const { courseId } = req.body;
+
+	try {
+		const user = await User.findById(userId);
+		const course = await Course.findById(courseId);
+		console.log(user.courses);
+
+		if (!user || !course) {
+			return res.status(404).json({
+				message: 'User or course not found',
+			});
+		}
+
+		const userCourseIndex = user.courses.findIndex(
+			(item) =>
+				item._id.toString() === course._id.toString(),
+		);
+
+		if (userCourseIndex === -1) {
+			return res.status(400).json({
+				message: 'Course not found in user courses',
+			});
+		}
+
+		// Update the specific course within the user's courses array
+		user.courses[userCourseIndex] = course.toObject();
+
+		await User.findByIdAndUpdate(
+			user._id,
+			{ $set: { courses: user.courses } },
+			{ new: true },
+		);
+
+		res.status(200).json({
+			message: 'Updated user course successfully',
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			message: 'Internal server error',
+		});
+	}
+};
+
 export const getUserCourses = async (req, res) => {
 	const user = await User.findById(req.params.userId);
 	if (user) {

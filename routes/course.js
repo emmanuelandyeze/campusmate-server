@@ -12,6 +12,7 @@ import {
 	removeCourseFromUser,
 	getUserCourses,
 	getUserswithCourse,
+	updateCourseForUser,
 } from '../controllers/course.js';
 
 router.post('/create-course', createCourse);
@@ -28,6 +29,10 @@ router.get('/get-user-courses/:userId', getUserCourses);
 router.get(
 	'/get-users-with-course/:courseId',
 	getUserswithCourse,
+);
+router.put(
+	'/update-course-for-user/:userId',
+	updateCourseForUser,
 );
 
 export default router;
