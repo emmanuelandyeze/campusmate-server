@@ -29,6 +29,9 @@ const noteSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Course',
 		},
+		is_private: {
+			type: Boolean,
+		},
 	},
 	{
 		timestamps: true,

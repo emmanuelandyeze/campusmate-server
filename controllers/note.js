@@ -24,6 +24,7 @@ export const createNote = async (req, res) => {
 		colour,
 		taskId,
 		courseId,
+		is_private,
 	} = req.body;
 	const newNote = new Note({
 		title,
@@ -32,6 +33,7 @@ export const createNote = async (req, res) => {
 		colour,
 		taskId,
 		courseId,
+		is_private,
 	});
 	const result = await newNote.save();
 	res.status(201).json({
