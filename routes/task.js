@@ -1,26 +1,29 @@
 import express from 'express';
-const router = express.Router();
 import {
 	createTask,
-	getTask,
-	getTasks,
-	getUserTasks,
-	updateTask,
-	deleteTask,
-	completedTask,
 	updateTaskChecklist,
+	markTaskCompleted,
+	markChecklistItemCompleted,
+	deleteTask,
+	getAllTasksForUser,
 } from '../controllers/task.js';
 
-router.post('/create-task', createTask);
-router.get('/get-task/:id', getTask);
-router.get('/get-tasks', getTasks);
-router.get('/get-user-tasks/:userId', getUserTasks);
-router.put('/update-task/:id', updateTask);
-router.delete('/delete-task/:id', deleteTask);
-router.put('/completed-task/:id', completedTask);
-router.put(
-	'/update-task-checklist/:taskId',
+const router = express.Router();
+
+router.post('/tasks', createTask);
+router.patch(
+	'/tasks/:userId/:taskId/checklist',
 	updateTaskChecklist,
 );
+router.patch(
+	'/tasks/:userId/:taskId/completed',
+	markTaskCompleted,
+);
+router.patch(
+	'/tasks/:userId/:taskId/checklist/:itemId/completed',
+	markChecklistItemCompleted,
+);
+router.delete('/tasks/:userId/:taskId', deleteTask);
+router.get('/tasks/:userId', getAllTasksForUser);
 
 export default router;
