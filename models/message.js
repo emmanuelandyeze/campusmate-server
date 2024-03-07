@@ -2,7 +2,7 @@ import mongoose, { mongo } from 'mongoose';
 
 const messageSchema = new mongoose.Schema(
 	{
-		senderId: {
+		user: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 		},
@@ -14,9 +14,9 @@ const messageSchema = new mongoose.Schema(
 			type: String,
 			enum: ['text'],
 		},
-		message: String,
+		text: String,
 		imageUrl: String,
-		timeStamp: {
+		createdAt: {
 			type: Date,
 			default: Date.now,
 		},

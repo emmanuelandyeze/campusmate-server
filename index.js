@@ -87,15 +87,15 @@ let chatRooms = [
 //endpoint to post Messages and store it in the backend
 app.post('/messages', async (req, res) => {
 	try {
-		const { senderId, courseId, messageType, messageText } =
+		const { user, courseId, messageType, messageText } =
 			req.body;
 
 		const newMessage = new Message({
-			senderId,
+			user,
 			courseId,
 			messageType,
-			message: messageText,
-			timestamp: new Date(),
+			text: messageText,
+			createdAt: new Date(),
 		});
 
 		await newMessage.save();
@@ -113,11 +113,11 @@ app.post('/messages', async (req, res) => {
 //endpoint to fetch the messages between users in the chatRoom
 app.get('/messages/:courseId', async (req, res) => {
 	try {
-		const { senderId, courseId } = req.params;
+		const { courseId } = req.params;
 
 		const messages = await Message.find({
 			courseId: courseId,
-		}).populate('senderId', '_id fullname');
+		}).populate('user', '_id fullname');
 
 		res.json(messages);
 	} catch (error) {
