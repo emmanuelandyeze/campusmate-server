@@ -148,6 +148,20 @@ app.post('/deleteMessages', async (req, res) => {
 	}
 });
 
+//endpoint to delete single message
+app.delete('/messages/:id', async (req, res) => {
+	try {
+        const { id } = req.params;
+
+        await Message.findByIdAndDelete(id);
+
+        res.json({ message: 'Message deleted successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal Server' });
+    }
+})
+
 app.get('/test', (req, res) => {
 	res.send('Hello world');
 });
