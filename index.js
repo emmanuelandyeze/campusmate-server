@@ -135,7 +135,7 @@ app.get('/messages/:courseId', async (req, res) => {
 	}
 });
 
-app.get('/messages/:groupId', async (req, res) => {
+app.get('/group-messages/:groupId', async (req, res) => {
 	try {
 		const { groupId } = req.params;
 
