@@ -9,6 +9,10 @@ const messageSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Course',
 	},
+	groupId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Group',
+	},
 	messageType: {
 		type: String,
 		enum: ['text'],

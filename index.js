@@ -89,6 +89,7 @@ app.post('/messages', async (req, res) => {
 		const {
 			user,
 			courseId,
+			groupId,
 			messageType,
 			messageText,
 			replyMessage,
@@ -97,6 +98,7 @@ app.post('/messages', async (req, res) => {
 		const newMessage = new Message({
 			user,
 			courseId,
+			groupId,
 			messageType,
 			text: messageText,
 			createdAt: new Date(),
@@ -122,6 +124,23 @@ app.get('/messages/:courseId', async (req, res) => {
 
 		const messages = await Message.find({
 			courseId: courseId,
+		}).populate('user', '_id fullname');
+
+		res.json(messages);
+	} catch (error) {
+		console.log(error);
+		res
+			.status(500)
+			.json({ error: 'Internal Server Error' });
+	}
+});
+
+app.get('/messages/:groupId', async (req, res) => {
+	try {
+		const { groupId } = req.params;
+
+		const messages = await Message.find({
+			groupId: groupId,
 		}).populate('user', '_id fullname');
 
 		res.json(messages);
