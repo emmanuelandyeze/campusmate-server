@@ -10,6 +10,7 @@ import {
 	updateUserToken,
 	googleSignIn,
 	googleSignInCallback,
+	getAllUsers,
 } from '../controllers/user.js';
 import { isAuth } from '../middlewares/auth.js';
 import {
@@ -73,5 +74,6 @@ router.put('/update-user-school/:userId', updateUserSchool);
 router.put('/update-user-token/:userId', updateUserToken);
 router.get('/auth/google', googleSignIn);
 router.get('/auth/google/callback', googleSignInCallback);
+router.get('/users', getAllUsers);
 
 export default router;

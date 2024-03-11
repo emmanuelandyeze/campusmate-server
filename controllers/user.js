@@ -79,6 +79,11 @@ export const userSignIn = async (req, res) => {
 	res.json({ success: true, user: userInfo, token });
 };
 
+export const getAllUsers = async (req, res) => {
+	const users = await User.find();
+	res.json({ success: true, users });
+};
+
 export const uploadProfile = async (req, res) => {
 	const { user } = req;
 	if (!user)

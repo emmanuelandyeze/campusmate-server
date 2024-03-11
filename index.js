@@ -238,6 +238,33 @@ app.get('/groups/:userId', async (req, res) => {
 	}
 });
 
+// get users in a group
+
+app.get('/groups/:groupId/users', async (req, res) => {
+	try {
+		const { groupId } = req.params;
+		// Find the group document by ID
+		const group = await Group.findById(groupId);
+
+		if (!group) {
+			console.log('Group not found');
+			return;
+		}
+
+		// Get the IDs of users in the group
+		const userIds = group.users;
+
+		// Find users with the retrieved IDs
+		const users = await User.find({
+			_id: { $in: userIds },
+		});
+
+		res.json({ success: true, users });
+	} catch (error) {
+		console.error('Error fetching users in group:', error);
+	}
+});
+
 app.get('/test', (req, res) => {
 	res.send('Hello world');
 });
