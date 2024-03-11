@@ -87,8 +87,13 @@ let chatRooms = [
 //endpoint to post Messages and store it in the backend
 app.post('/messages', async (req, res) => {
 	try {
-		const { user, courseId, messageType, messageText } =
-			req.body;
+		const {
+			user,
+			courseId,
+			messageType,
+			messageText,
+			replyMessage,
+		} = req.body;
 
 		const newMessage = new Message({
 			user,
@@ -96,6 +101,7 @@ app.post('/messages', async (req, res) => {
 			messageType,
 			text: messageText,
 			createdAt: new Date(),
+			replyMessage,
 		});
 
 		await newMessage.save();

@@ -19,6 +19,9 @@ const messageSchema = new mongoose.Schema({
 		type: Date,
 		default: new Date(),
 	},
+	replyMessage: {
+		type: Object,
+	},
 });
 
 const Message = mongoose.model('Message', messageSchema);
