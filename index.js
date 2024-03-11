@@ -12,6 +12,7 @@ import http, { Server } from 'http';
 
 import User from './models/user.js';
 import Message from './models/message.js';
+import Group from './models/group.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -81,8 +82,6 @@ let chatRooms = [
 	//  ],
 	// },
 ];
-
-
 
 //endpoint to post Messages and store it in the backend
 app.post('/messages', async (req, res) => {
@@ -157,16 +156,68 @@ app.post('/deleteMessages', async (req, res) => {
 //endpoint to delete single message
 app.delete('/messages/:id', async (req, res) => {
 	try {
-        const { id } = req.params;
+		const { id } = req.params;
 
-        await Message.findByIdAndDelete(id);
+		await Message.findByIdAndDelete(id);
 
-        res.json({ message: 'Message deleted successfully' });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Internal Server' });
-    }
-})
+		res.json({ message: 'Message deleted successfully' });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ error: 'Internal Server' });
+	}
+});
+
+// Create a Group
+app.post('/groups', async (req, res) => {
+	try {
+		const { name, color, users, admin } = req.body;
+		const group = new Group({ name, color, users, admin });
+		await group.save();
+		res.status(201).json(group);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+});
+
+// Add User to a Group
+app.patch('/groups/:id/add-user', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { user } = req.body;
+		const group = await Group.findById(id);
+		if (!group) throw new Error('Group not found');
+		group.users.push(user);
+		await group.save();
+		res.json(group);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+});
+
+// Remove User from a Group
+app.patch('/groups/:id/remove-user', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { user } = req.body;
+		const group = await Group.findById(id);
+		if (!group) throw new Error('Group not found');
+		group.users = group.users.filter((u) => u !== user);
+		await group.save();
+		res.json(group);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+});
+
+app.get('/groups/:userId', async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const groups = await Group.find({ users: userId });
+		res.json(groups);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+});
 
 app.get('/test', (req, res) => {
 	res.send('Hello world');
