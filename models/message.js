@@ -1,7 +1,7 @@
 import mongoose, { mongo } from 'mongoose';
 
 const messageSchema = new mongoose.Schema({
-	user: {
+	userId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 	},
@@ -24,6 +24,9 @@ const messageSchema = new mongoose.Schema({
 		default: new Date(),
 	},
 	replyMessage: {
+		type: Object,
+	},
+	user: {
 		type: Object,
 	},
 });

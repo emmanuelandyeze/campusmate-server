@@ -93,6 +93,7 @@ app.post('/messages', async (req, res) => {
 			messageType,
 			messageText,
 			replyMessage,
+			userId,
 		} = req.body;
 
 		const newMessage = new Message({
@@ -103,6 +104,7 @@ app.post('/messages', async (req, res) => {
 			text: messageText,
 			createdAt: new Date(),
 			replyMessage,
+			userId,
 		});
 
 		await newMessage.save();
