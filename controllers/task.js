@@ -78,6 +78,29 @@ export const markTaskCompleted = async (req, res) => {
 	}
 };
 
+export const markTaskNotCompleted = async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const { taskId } = req.body;
+
+		const task = await Task.findOneAndUpdate(
+			{ _id: taskId, userId },
+			{ completed: false },
+			{ new: true },
+		);
+
+		if (!task) {
+			return res
+				.status(404)
+				.json({ message: 'Task not found for the user' });
+		}
+
+		res.json(task);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 // Controller to mark checklist item as completed for a specific user
 export const markChecklistItemCompleted = async (
 	req,
@@ -113,6 +136,8 @@ export const markChecklistItemCompleted = async (
 		res.status(500).json({ message: error.message });
 	}
 };
+
+
 
 // Controller to delete task for a specific user
 export const deleteTask = async (req, res) => {

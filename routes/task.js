@@ -6,6 +6,7 @@ import {
 	markChecklistItemCompleted,
 	deleteTask,
 	getAllTasksForUser,
+	markTaskNotCompleted,
 } from '../controllers/task.js';
 
 const router = express.Router();
@@ -20,9 +21,14 @@ router.patch(
 	markTaskCompleted,
 );
 router.patch(
+	'/tasks/:userId/:taskId/uncompleted',
+	markTaskNotCompleted,
+);
+router.patch(
 	'/tasks/:userId/:taskId/checklist/:itemId/completed',
 	markChecklistItemCompleted,
 );
+
 router.delete('/tasks/:userId/:taskId', deleteTask);
 router.get('/tasks/:userId', getAllTasksForUser);
 
