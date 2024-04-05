@@ -85,7 +85,7 @@ export const updateTask = async (req, res) => {
 
 		const task = await Task.findOneAndUpdate(
 			{ _id: taskId, userId },
-			{ details: details },
+			{ $push: { details: { $each: details } } },
 			{ new: true },
 		);
 

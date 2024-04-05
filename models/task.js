@@ -14,7 +14,7 @@ const taskSchema = new Schema({
 		},
 	],
 	completed: { type: Boolean, default: false },
-	details: { type: String, required: false },
+	details: [{ type: String, required: false }],
 });
 
 const Task = model('Task', taskSchema);
