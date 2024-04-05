@@ -7,6 +7,7 @@ import {
 	deleteTask,
 	getAllTasksForUser,
 	markTaskNotCompleted,
+	updateTask,
 } from '../controllers/task.js';
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.patch(
 	'/tasks/:userId/:taskId/completed',
 	markTaskCompleted,
 );
+router.patch('/tasks/:userId/:taskId/update', updateTask);
 router.patch(
 	'/tasks/:userId/:taskId/uncompleted',
 	markTaskNotCompleted,
