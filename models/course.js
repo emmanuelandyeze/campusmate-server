@@ -21,7 +21,11 @@ const courseSchema = new mongoose.Schema(
 		department: String,
 		courseDescription: String,
 		courseUnit: String,
-		school: String,
+		school: {
+			type: String,
+			required: true,
+			default: 'University of Lagos',
+		},
 		courseTimes: [courseTimeSchema], // Array of courseTimeSchema objects
 	},
 	{
