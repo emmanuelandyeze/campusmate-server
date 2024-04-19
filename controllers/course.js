@@ -9,7 +9,7 @@ export const createCourse = async (req, res) => {
 		department,
 		courseDescription,
 		courseUnit,
-		prerequisite,
+		school,
 		courseTimes,
 	} = req.body;
 	const newCourse = new Course({
@@ -19,7 +19,7 @@ export const createCourse = async (req, res) => {
 		department,
 		courseDescription,
 		courseUnit,
-		prerequisite,
+		school,
 		courseTimes,
 	});
 	const result = await newCourse.save();

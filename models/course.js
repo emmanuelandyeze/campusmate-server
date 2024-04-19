@@ -21,7 +21,7 @@ const courseSchema = new mongoose.Schema(
 		department: String,
 		courseDescription: String,
 		courseUnit: String,
-		prerequisite: String,
+		school: String,
 		courseTimes: [courseTimeSchema], // Array of courseTimeSchema objects
 	},
 	{
